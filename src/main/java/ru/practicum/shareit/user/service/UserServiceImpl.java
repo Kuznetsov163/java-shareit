@@ -41,12 +41,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(UserUpdateDto userUpdateDto) {
         User user4Update = findUserById(userUpdateDto.getId());
+        String oldEmail = user4Update.getEmail();
 
         if (userUpdateDto.getName() != null) {
             user4Update.setName(userUpdateDto.getName());
         }
         if (userUpdateDto.getEmail() != null) {
-            checkDuplicate(userUpdateDto.getEmail());
+            if (!oldEmail.equals(userUpdateDto.getEmail())) {
+                checkDuplicate(userUpdateDto.getEmail());
+            }
             user4Update.setEmail(userUpdateDto.getEmail());
         }
         return userMapper.toUserDto(userRepository.update(user4Update));
