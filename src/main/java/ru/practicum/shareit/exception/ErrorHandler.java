@@ -29,7 +29,7 @@ public class ErrorHandler {
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidationException(final Exception e) {
+    public ErrorResponse handleValidationException(final AllowanceException e) {
         log.error("Validation error: {}", e.getMessage());
         return new ErrorResponse(e, showStackTraceInResponse);
     }
