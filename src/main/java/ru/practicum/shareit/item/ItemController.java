@@ -10,12 +10,11 @@ import ru.practicum.shareit.item.dto.ItemCreateDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemUpdateDto;
 import ru.practicum.shareit.item.dto.ItemWithBookingDto;
+
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.logging.Logging;
 
 import java.util.List;
-
-import static ru.practicum.shareit.constant.Request.HEADER4USER_ID;
 
 
 
@@ -25,6 +24,7 @@ import static ru.practicum.shareit.constant.Request.HEADER4USER_ID;
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
+    private static final String HEADER4USER_ID = "X-Sharer-User-Id";
 
     @GetMapping
     public List<ItemWithBookingDto> getUserItems(@RequestHeader(HEADER4USER_ID) long userId) {

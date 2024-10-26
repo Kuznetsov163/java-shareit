@@ -40,8 +40,7 @@ public class ItemMapper {
                 .toList();
     }
 
-    public ItemWithBookingDto toItemWithBookingDto(Item item, BookingDto lastBooking, BookingDto nextBooking,
-                                                   List<CommentFullDto> comments) {
+    public ItemWithBookingDto toItemWithBookingDto(Item item, BookingDto lastBooking, BookingDto nextBooking, List<CommentFullDto> comments) {
         return ItemWithBookingDto.builder()
                 .id(item.getId())
                 .name(item.getName())
