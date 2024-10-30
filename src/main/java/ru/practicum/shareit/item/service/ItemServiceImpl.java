@@ -4,6 +4,7 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.booking.enums.BookingStatus;
@@ -30,6 +31,7 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
@@ -40,6 +42,7 @@ public class ItemServiceImpl implements ItemService {
     private final BookingMapper bookingMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<ItemWithBookingDto> getAll4Owner(long ownerId) {
         checkUserExists(ownerId);
         List<Item> items = itemRepository.findItemsByOwnerId(ownerId);
@@ -85,6 +88,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ItemWithBookingDto getById(long id, long userId) {
         Item item = findItemById(id);
         BookingDto bookingLast = null;
@@ -141,6 +145,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ItemDto> searchItems(String searchText) {
         if (searchText == null || searchText.isEmpty()) {
             return Collections.emptyList();
