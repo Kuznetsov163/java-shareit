@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.DuplicateException;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 import ru.practicum.shareit.user.dto.UserCreateDto;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsers() {
-        return userMapper.toUserDtos(userRepository.getAll());
+        return userMapper.toUserDtos(userRepository.findAll());
     }
 
     @Override
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(UserCreateDto userCreateDto) {
         checkDuplicate(userCreateDto.getEmail());
         User user = userMapper.toUserFromUserCreateDto(userCreateDto);
-        return userMapper.toUserDto(userRepository.create(user));
+        return userMapper.toUserDto(userRepository.save(user));
     }
 
     @Override
@@ -52,16 +52,16 @@ public class UserServiceImpl implements UserService {
             }
             user4Update.setEmail(userUpdateDto.getEmail());
         }
-        return userMapper.toUserDto(userRepository.update(user4Update));
+        return userMapper.toUserDto(userRepository.save(user4Update));
     }
 
     @Override
     public void deleteUser(long id) {
-        userRepository.delete(id);
+        userRepository.deleteById(id);
     }
 
     private User findUserById(long id) {
-        return userRepository.getById(id)
+        return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Пользователь с идентификатором не найден " + id));
     }
 
